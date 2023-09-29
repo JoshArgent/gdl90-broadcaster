@@ -1,5 +1,7 @@
 import dgram from 'dgram';
 
+const SOCKET = 63093;
+const HOST = 'localhost';
 export class GDL90 {
 	/**
 	 * @type {dgram}
@@ -23,16 +25,7 @@ export class GDL90 {
 
 				const message = Buffer.from('Hello World!');
 
-				this._socket.send(
-					message,
-					0,
-					message.length,
-					63093,
-					'localhost',
-					function () {
-						console.log("Sent '" + message + "'");
-					}
-				);
+				this._socket.send(message, 0, message.length, SOCKET, HOST);
 
 				resolve();
 			});

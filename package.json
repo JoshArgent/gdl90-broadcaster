@@ -8,7 +8,8 @@
 		"doc": "docs"
 	},
 	"scripts": {
-		"test": "node --experimental-specifier-resolution=node src/gdl90/index.js"
+		"run": "node --experimental-specifier-resolution=node src/gdl90/index.js",
+		"test": "jest "
 	},
 	"author": "",
 	"license": "ISC",
@@ -19,5 +20,8 @@
 		"semi": true,
 		"singleQuote": true,
 		"arrowParens": "avoid"
+	},
+	"devDependencies": {
+		"jest": "^29.7.0"
 	}
 }
