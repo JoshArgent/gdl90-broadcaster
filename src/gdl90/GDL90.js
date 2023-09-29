@@ -6,28 +6,36 @@ export class GDL90 {
 	 */
 	dgram;
 
+	_socket;
+
 	constructor(dgram) {
 		this.dgram = dgram;
 	}
 
-	async connect() {
-		const socket = this.dgram.createSocket('udp4');
+	connect() {
+		return new Promise((resolve, reject) => {
+			this._socket = this.dgram.createSocket('udp4');
 
-		socket.bind(() => {
-			socket.setBroadcast(true);
+			this._socket.on('error', reject);
 
-			const message = Buffer.from('Hello World!');
+			this._socket.bind(() => {
+				this._socket.setBroadcast(true);
 
-			socket.send(
-				message,
-				0,
-				message.length,
-				63093,
-				'localhost',
-				function () {
-					console.log("Sent '" + message + "'");
-				}
-			);
+				const message = Buffer.from('Hello World!');
+
+				this._socket.send(
+					message,
+					0,
+					message.length,
+					63093,
+					'localhost',
+					function () {
+						console.log("Sent '" + message + "'");
+					}
+				);
+
+				resolve();
+			});
 		});
 	}
 }
