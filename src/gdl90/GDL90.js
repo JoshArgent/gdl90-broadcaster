@@ -1,5 +1,6 @@
 import dgram from 'dgram';
-import { HearbeatMessage } from './messages';
+import { HearbeatMessage, Message } from './messages';
+import { bits, buffer } from 'bitwise';
 
 const SOCKET = 63093;
 const HOST = 'localhost';
@@ -24,12 +25,28 @@ export class GDL90 {
 			this._socket.bind(() => {
 				this._socket.setBroadcast(true);
 
-				const message = new HearbeatMessage().getValue();
-
-				this._socket.send(message, 0, message.length, SOCKET, HOST);
+				this._startHeartbeat();
 
 				resolve();
 			});
 		});
+	}
+
+	/**
+	 * @param {Message} message
+	 */
+	sendMessage(message) {
+		const messageBuffer = message.getValue();
+
+		const bitsArr = buffer.read(messageBuffer);
+		console.log(bits.toString(bitsArr, 8));
+
+		this._socket.send(messageBuffer, 0, messageBuffer.length, SOCKET, HOST);
+	}
+
+	_startHeartbeat() {
+		setInterval(() => {
+			this.sendMessage(new HearbeatMessage());
+		}, 1000);
 	}
 }

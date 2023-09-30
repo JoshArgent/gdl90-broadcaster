@@ -1,7 +1,8 @@
 import { buffer, byte } from 'bitwise';
-import { secondsSinceMidnight } from './utils/date';
+import { secondsSinceMidnight } from '../utils/date';
+import { Message } from './message';
 
-export class HearbeatMessage {
+export class HearbeatMessage extends Message {
 	timestamp = new Date();
 	gpsPosValid = true;
 	maintReq = false;
