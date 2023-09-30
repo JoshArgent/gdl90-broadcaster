@@ -2,7 +2,7 @@ import dgram from 'dgram';
 import { HearbeatMessage, Message } from './messages';
 import { bits, buffer } from 'bitwise';
 
-const SOCKET = 63093;
+const SOCKET = 4000;
 const HOST = 'localhost';
 export class GDL90 {
 	/**

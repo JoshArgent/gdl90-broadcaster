@@ -10,13 +10,16 @@ export class HearbeatMessage extends Message {
 	addrType = false;
 	gpsBattLow = false;
 	ratcs = false;
-	uatInitialized = false;
+	uatInitialized = true;
 	csaRequested = false;
 	csaNotAvailable = false;
 	utcOk = true;
 
-	getValue() {
-		const b1 = byte.read(0); // Message Id
+	getMessageId() {
+		return 0;
+	}
+
+	getMessageContent() {
 		const b2 = [
 			boolToBit(this.uatInitialized),
 			0,
@@ -50,7 +53,7 @@ export class HearbeatMessage extends Message {
 		const b6 = buffer.read(messageCountsBuffer, 0, 8);
 		const b7 = buffer.read(messageCountsBuffer, 8, 8);
 
-		return buffer.create([b1, b2, b3, b4, b5, b6, b7].flat(1));
+		return [...b2, ...b3, ...b4, ...b5, ...b6, ...b7];
 	}
 }
 
