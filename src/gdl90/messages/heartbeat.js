@@ -43,13 +43,13 @@ export class HearbeatMessage extends Message {
 
 		const timestamp = secondsSinceMidnight(this.timestamp);
 		const timestampBuffer = Buffer.alloc(4);
-		timestampBuffer.writeUInt32LE(timestamp, 0);
+		timestampBuffer.writeUInt32BE(timestamp, 0);
 		const b4 = buffer.read(timestampBuffer, 0, 8);
 		const b5 = buffer.read(timestampBuffer, 8, 8);
 		b3[7] = buffer.read(timestampBuffer, 16, 1)[0];
 
 		const messageCountsBuffer = Buffer.alloc(2);
-		messageCountsBuffer.writeUInt16LE(0);
+		messageCountsBuffer.writeUInt16BE(0);
 		const b6 = buffer.read(messageCountsBuffer, 0, 8);
 		const b7 = buffer.read(messageCountsBuffer, 8, 8);
 
