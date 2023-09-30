@@ -11,7 +11,7 @@ export class HearbeatMessage extends Message {
 	gpsBattLow = false;
 	ratcs = false;
 	uatInitialized = true;
-	csaRequested = false;
+	csaRequested = true;
 	csaNotAvailable = false;
 	utcOk = true;
 
@@ -31,22 +31,22 @@ export class HearbeatMessage extends Message {
 			boolToBit(this.gpsPosValid),
 		];
 		const b3 = [
-			1,
 			0,
-			0,
-			0,
-			0,
-			boolToBit(this.csaNotAvailable),
 			boolToBit(this.csaRequested),
+			boolToBit(this.csaNotAvailable),
 			0,
+			0,
+			0,
+			0,
+			boolToBit(this.utcOk),
 		];
 
 		const timestamp = secondsSinceMidnight(this.timestamp);
 		const timestampBuffer = Buffer.alloc(4);
-		timestampBuffer.writeUInt32BE(timestamp, 0);
-		const b4 = buffer.read(timestampBuffer, 0, 8);
-		const b5 = buffer.read(timestampBuffer, 8, 8);
-		b3[7] = buffer.read(timestampBuffer, 16, 1)[0];
+		timestampBuffer.writeUInt32LE(timestamp, 0);
+		const b4 = buffer.read(timestampBuffer, 8, 8);
+		const b5 = buffer.read(timestampBuffer, 0, 8);
+		b3[0] = buffer.read(timestampBuffer, 16, 1)[0];
 
 		const messageCountsBuffer = Buffer.alloc(2);
 		messageCountsBuffer.writeUInt16BE(0);
