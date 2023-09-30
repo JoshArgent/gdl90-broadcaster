@@ -23,5 +23,8 @@
 	},
 	"devDependencies": {
 		"jest": "^29.7.0"
+	},
+	"dependencies": {
+		"bitwise": "^2.2.0"
 	}
 }
