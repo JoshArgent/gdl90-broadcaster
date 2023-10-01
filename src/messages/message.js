@@ -1,7 +1,8 @@
 import { buffer, byte } from 'bitwise';
 import { crc16_ccitt } from '../utils/crc16';
 
-const FLAG_BYTE = byte.read(0x7e);
+const FLAG_BYTE = 0x7e;
+const ESCAPE_BYTE = 0x7d;
 
 export class Message {
 	/**
@@ -24,14 +25,29 @@ export class Message {
 		const fcsBuffer = Buffer.alloc(2);
 		fcsBuffer.writeUInt16LE(fcs);
 
-		// TODO: Find all of the Control-Escape and Flag Byte characters in the message and make the conversion
+		// Find all of the Control-Escape and Flag Byte characters in the message and make the conversion
+		const escapedMessage = escapeControlCharacters(messageData);
 
 		// Frame the message by adding Flag Byte characters to the beginning and the end of the message
 		return buffer.create([
-			...FLAG_BYTE,
-			...messageData,
+			...byte.read(FLAG_BYTE),
+			...escapedMessage,
 			...buffer.read(fcsBuffer),
-			...FLAG_BYTE,
+			...byte.read(FLAG_BYTE),
 		]);
 	}
+}
+
+function escapeControlCharacters(messageData) {
+	const messageBuffer = buffer.create(messageData);
+	const escapedMessage = [];
+
+	for (const item of messageBuffer) {
+		if (item === FLAG_BYTE || item === ESCAPE_BYTE) {
+		} else {
+			escapedMessage.push(...byte.read(item));
+		}
+	}
+
+	return escapedMessage;
 }
