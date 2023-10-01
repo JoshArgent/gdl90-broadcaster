@@ -4,20 +4,20 @@ import { Message } from './message';
 export class Ownership extends Message {
 	trafficAlert = false;
 	addressType = 0;
-	participantAddress = 11224393; //0;
-	latitudeDeg = 44.90708;
-	longitudeDeg = -122.99488;
-	altitudeFt = 5000;
+	participantAddress = 0;
+	latitudeDeg = 0;
+	longitudeDeg = 0;
+	altitudeFt = 0;
 	airborne = true;
 	reportExtrapolated = false;
 	headingTrue = true;
 	navigationIntegrityCategory = 10;
 	navigationAccuracyCategory = 9;
-	horizontalVelocityKts = 123;
-	verticalVelocityFpm = 64;
-	trackHeadingDeg = 45;
+	horizontalVelocityKts = 100;
+	verticalVelocityFpm = 0;
+	trackHeadingDeg = 0;
 	emitterCategory = 1; // 1 = light plane
-	callsign = 'N825V';
+	callsign = 'G-XXXX';
 	priorityCode = 0;
 
 	getMessageId() {
