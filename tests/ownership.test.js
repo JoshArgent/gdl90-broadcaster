@@ -28,7 +28,7 @@ describe('ownership message', () => {
 
 		// Then
 		expect(buffer.toString('hex')).toBe(
-			'7e0a00ab45491fef15a889780f09a907b00120014e3832355620202000bff77e'
+			'7e0a00ab45491fef15a889780f09a907b00120014e3832355620202000855b7e'
 		);
 	});
 });
