@@ -14,6 +14,7 @@ export class HearbeatMessage extends Message {
 	csaRequested = true;
 	csaNotAvailable = false;
 	utcOk = true;
+	messageCountsBuffer = 0;
 
 	getMessageId() {
 		return 0;
@@ -49,7 +50,7 @@ export class HearbeatMessage extends Message {
 		b3[0] = buffer.read(timestampBuffer, 16, 1)[0];
 
 		const messageCountsBuffer = Buffer.alloc(2);
-		messageCountsBuffer.writeUInt16BE(0);
+		messageCountsBuffer.writeUInt16BE(this.messageCountsBuffer);
 		const b6 = buffer.read(messageCountsBuffer, 0, 8);
 		const b7 = buffer.read(messageCountsBuffer, 8, 8);
 

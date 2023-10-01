@@ -1,5 +1,5 @@
-import { expect, it, describe, jest } from '@jest/globals';
-import { Ownership } from '../../src/gdl90/messages/ownership';
+import { expect, it, describe } from '@jest/globals';
+import { Ownership } from '../src/messages/ownership';
 
 describe('ownership message', () => {
 	it('should produce correct message output', () => {

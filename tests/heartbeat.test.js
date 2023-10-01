@@ -1,5 +1,5 @@
-import { expect, it, describe, jest } from '@jest/globals';
-import { HearbeatMessage } from '../../src/gdl90/messages';
+import { expect, it, describe } from '@jest/globals';
+import { HearbeatMessage } from '../src/messages';
 
 describe('heartbeat message', () => {
 	it('should produce correct message output', () => {
