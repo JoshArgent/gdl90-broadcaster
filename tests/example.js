@@ -1,6 +1,6 @@
 import { GDL90, Traffic } from '../src';
 
-const server = new GDL90({ host: '192.168.0.42', logging: true });
+const server = new GDL90({ logging: true });
 
 server.ownershipMessage.callsign = 'TEST';
 server.ownershipMessage.latitudeDeg = 51;
