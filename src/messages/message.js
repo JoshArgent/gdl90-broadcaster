@@ -1,8 +1,9 @@
-import { buffer, byte } from 'bitwise';
+import { bits, buffer, byte } from 'bitwise';
 import { crc16_ccitt } from '../utils/crc16';
 
 const FLAG_BYTE = 0x7e;
 const ESCAPE_BYTE = 0x7d;
+const ESCAPE_XOR = 0x20;
 
 export class Message {
 	/**
@@ -44,6 +45,8 @@ function escapeControlCharacters(messageData) {
 
 	for (const item of messageBuffer) {
 		if (item === FLAG_BYTE || item === ESCAPE_BYTE) {
+			const escaped = bits.xor(byte.read(item), byte.read(ESCAPE_XOR));
+			escapedMessage.push(...byte.read(ESCAPE_BYTE), ...escaped);
 		} else {
 			escapedMessage.push(...byte.read(item));
 		}
