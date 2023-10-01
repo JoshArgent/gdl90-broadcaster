@@ -6,6 +6,9 @@ describe('heartbeat message', () => {
 		// Given
 		const message = new HearbeatMessage();
 		message.timestamp = new Date(2023, 8, 30, 15, 37, 52);
+		message.csaRequested = true;
+		message.utcOk = true;
+		message.messageCountsBuffer = 2050;
 
 		// When
 		const buffer = message.getValue();

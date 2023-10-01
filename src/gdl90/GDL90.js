@@ -4,7 +4,7 @@ import { bits, buffer } from 'bitwise';
 import { Ownership } from './messages/ownership';
 
 const SOCKET = 4000;
-const HOST = '127.0.0.1';
+const HOST = '192.168.0.18';
 export class GDL90 {
 	/**
 	 * @type {dgram}

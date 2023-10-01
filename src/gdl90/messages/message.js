@@ -22,7 +22,7 @@ export class Message {
 		// Calculate the FCS and append it to the end of the message (least significant byte first).
 		const fcs = crc16_ccitt(buffer.create(messageData));
 		const fcsBuffer = Buffer.alloc(2);
-		fcsBuffer.writeUInt16BE(fcs);
+		fcsBuffer.writeUInt16LE(fcs);
 
 		// TODO: Find all of the Control-Escape and Flag Byte characters in the message and make the conversion
 

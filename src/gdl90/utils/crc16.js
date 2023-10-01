@@ -30,16 +30,16 @@ const crcTable = [
 	0x2e93, 0x3eb2, 0x0ed1, 0x1ef0,
 ];
 
-export function crc16_ccitt(s) {
-	var crc = 0xffff;
-	var j, i;
-	for (i = 0; i < s.length; i++) {
-		let c = s.readUInt8(i);
-		if (c > 255) {
-			throw new RangeError();
-		}
-		j = (c ^ (crc >> 8)) & 0xff;
-		crc = crcTable[j] ^ (crc << 8);
+export function crc16_ccitt(data) {
+	const mask16bit = 0xffff;
+
+	let crc = 0;
+	let i = 0;
+
+	for (const c of data) {
+		const m = (crc << 8) & mask16bit;
+		crc = crcTable[crc >> 8] ^ m ^ c;
 	}
-	return (crc ^ 0) & 0xffff;
+
+	return crc;
 }
