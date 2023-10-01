@@ -6,6 +6,7 @@ const DEFAULT_OPTIONS = {
 	dgram: dgram,
 	host: 'localhost',
 	port: 4000,
+	logging: false,
 };
 
 export class GDL90 {
@@ -38,6 +39,11 @@ export class GDL90 {
 	_interval;
 
 	/**
+	 * @private
+	 */
+	_logging;
+
+	/**
 	 * The hearbeat message as described in GDL-90 specification.
 	 * @type {HearbeatMessage}
 	 */
@@ -66,6 +72,7 @@ export class GDL90 {
 	 * @param {dgram} [options.dgram] Datagram library for sending data over UDP. Defaults to Node's implementation
 	 * @param {string} [options.host] Host address to broadcast on. Defaults to localhost
 	 * @param {number} [options.port] Port to broadcast on. Defaults to 4000
+	 * @param {boolean} [options.logging] Log the broadcast output to the stdout in hex. Defaults to false.
 	 */
 	constructor(options = {}) {
 		const optionsWithDefaults = { ...DEFAULT_OPTIONS, ...options };
@@ -73,6 +80,7 @@ export class GDL90 {
 		this._dgram = optionsWithDefaults.dgram;
 		this._host = optionsWithDefaults.host;
 		this._port = optionsWithDefaults.port;
+		this._logging = optionsWithDefaults.logging;
 	}
 
 	/**
@@ -111,7 +119,9 @@ export class GDL90 {
 	_sendMessage(message) {
 		const messageBuffer = message.getValue();
 
-		console.log(messageBuffer.toString('hex'));
+		if (this._logging) {
+			console.log(messageBuffer.toString('hex'));
+		}
 
 		this._socket.send(
 			messageBuffer,
