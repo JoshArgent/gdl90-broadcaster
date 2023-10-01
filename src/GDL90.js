@@ -1,6 +1,5 @@
 import dgram from 'dgram';
 import { HearbeatMessage, Message } from './messages';
-import { bits, buffer } from 'bitwise';
 import { Ownership } from './messages/ownership';
 
 const SOCKET = 4000;
@@ -38,9 +37,6 @@ export class GDL90 {
 	 */
 	sendMessage(message) {
 		const messageBuffer = message.getValue();
-
-		const bitsArr = buffer.read(messageBuffer);
-		console.log(bits.toString(bitsArr, 8));
 
 		this._socket.send(messageBuffer, 0, messageBuffer.length, SOCKET, HOST);
 	}
