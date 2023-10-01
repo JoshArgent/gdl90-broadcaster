@@ -48,7 +48,7 @@ export class GDL90 {
 
 		this._dgram = optionsWithDefaults.dgram;
 		this._host = optionsWithDefaults.host;
-		this._port = options.port;
+		this._port = optionsWithDefaults.port;
 	}
 
 	/**
