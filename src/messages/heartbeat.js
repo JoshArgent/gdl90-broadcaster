@@ -1,4 +1,4 @@
-import { buffer, byte } from 'bitwise';
+import { buffer } from 'bitwise';
 import { secondsSinceMidnight } from '../utils/date';
 import { Message } from './message';
 
