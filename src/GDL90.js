@@ -1,6 +1,6 @@
 import dgram from 'dgram';
 import { HearbeatMessage, Message } from './messages';
-import { Ownership } from './messages/ownership';
+import { Ownership } from './messages/baseTraffic';
 
 const DEFAULT_OPTIONS = {
 	dgram: dgram,

@@ -1,7 +1,7 @@
 import { BaseTraffic } from './baseTraffic';
 
-export class Ownership extends BaseTraffic {
+export class Traffic extends BaseTraffic {
 	getMessageId() {
-		return 10;
+		return 20;
 	}
 }
