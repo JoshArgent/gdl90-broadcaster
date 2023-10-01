@@ -38,6 +38,18 @@ export class GDL90 {
 	_interval;
 
 	/**
+	 * The hearbeat message as described in GDL-90 specification.
+	 * @type {HearbeatMessage}
+	 */
+	hearbeatMessage = new HearbeatMessage();
+
+	/**
+	 * The ownership message as described in GDL-90 specification.
+	 * @type {Ownership}
+	 */
+	ownershipMessage = new Ownership();
+
+	/**
 	 * @param {object} [options]
 	 * @param {dgram} [options.dgram] Datagram library for sending data over UDP. Defaults to Node's implementation
 	 * @param {string} [options.host] Host address to broadcast on. Defaults to localhost
@@ -101,8 +113,10 @@ export class GDL90 {
 	 */
 	_startHeartbeat() {
 		this._interval = setInterval(() => {
-			this._sendMessage(new HearbeatMessage());
-			this._sendMessage(new Ownership());
+			this.hearbeatMessage.timestamp = new Date();
+			this._sendMessage(this.hearbeatMessage);
+
+			this._sendMessage(this.ownershipMessage);
 		}, 1000);
 	}
 }
