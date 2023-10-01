@@ -1,5 +1,5 @@
 import dgram from 'dgram';
-import { HearbeatMessage, Message, Traffic } from './messages';
+import { GeoAltitude, HearbeatMessage, Message, Traffic } from './messages';
 import { Ownership } from './messages/ownership';
 
 const DEFAULT_OPTIONS = {
@@ -48,6 +48,8 @@ export class GDL90 {
 	 * @type {Ownership}
 	 */
 	ownershipMessage = new Ownership();
+
+	geometricAltitudeMessage = new GeoAltitude();
 
 	/**
 	 * Traffic report messages as described in GDL-90 specification.
@@ -125,6 +127,8 @@ export class GDL90 {
 			this._sendMessage(this.hearbeatMessage);
 
 			this._sendMessage(this.ownershipMessage);
+
+			this._sendMessage(this.geometricAltitudeMessage);
 
 			this.trafficMessages.forEach(traffic => {
 				this._sendMessage(traffic);
