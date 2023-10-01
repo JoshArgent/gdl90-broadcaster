@@ -49,6 +49,10 @@ export class GDL90 {
 	 */
 	ownershipMessage = new Ownership();
 
+	/**
+	 * The Geometric altitude message as described in GDL-90 specification.
+	 * @type {GeoAltitude}
+	 */
 	geometricAltitudeMessage = new GeoAltitude();
 
 	/**
