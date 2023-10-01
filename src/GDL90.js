@@ -1,5 +1,5 @@
 import dgram from 'dgram';
-import { HearbeatMessage, Message } from './messages';
+import { HearbeatMessage, Message, Traffic } from './messages';
 import { Ownership } from './messages/ownership';
 
 const DEFAULT_OPTIONS = {
@@ -48,6 +48,12 @@ export class GDL90 {
 	 * @type {Ownership}
 	 */
 	ownershipMessage = new Ownership();
+
+	/**
+	 * Traffic report messages as described in GDL-90 specification.
+	 * @type {Traffic[]}
+	 */
+	trafficMessages = [];
 
 	/**
 	 * @param {object} [options]
@@ -99,6 +105,8 @@ export class GDL90 {
 	_sendMessage(message) {
 		const messageBuffer = message.getValue();
 
+		console.log(messageBuffer.toString('hex'));
+
 		this._socket.send(
 			messageBuffer,
 			0,
@@ -117,6 +125,10 @@ export class GDL90 {
 			this._sendMessage(this.hearbeatMessage);
 
 			this._sendMessage(this.ownershipMessage);
+
+			this.trafficMessages.forEach(traffic => {
+				this._sendMessage(traffic);
+			});
 		}, 1000);
 	}
 }

@@ -11,6 +11,8 @@ export class BaseTraffic extends Message {
 	airborne = true;
 	reportExtrapolated = false;
 	headingTrue = true;
+	headingMagnetic = false;
+	trueTrackAngle = false;
 	navigationIntegrityCategory = 10;
 	navigationAccuracyCategory = 9;
 	horizontalVelocityKts = 100;
@@ -30,11 +32,11 @@ export class BaseTraffic extends Message {
 		const aaaaaa = buffer.read(aaaaaaBuffer, 8, 24);
 
 		const llllllBuffer = Buffer.alloc(4);
-		llllllBuffer.writeInt32BE(packLatLon(this.latitudeDeg));
+		llllllBuffer.writeUInt32BE(packLatLon(this.latitudeDeg));
 		const llllll = buffer.read(llllllBuffer, 8, 24);
 
 		const nnnnnnBuffer = Buffer.alloc(4);
-		nnnnnnBuffer.writeInt32BE(packLatLon(this.longitudeDeg));
+		nnnnnnBuffer.writeUInt32BE(packLatLon(this.longitudeDeg));
 		const nnnnnn = buffer.read(nnnnnnBuffer, 8, 24);
 
 		const dddBuffer = Buffer.alloc(4);
@@ -44,8 +46,8 @@ export class BaseTraffic extends Message {
 		const m = [
 			boolToBit(this.airborne),
 			boolToBit(this.reportExtrapolated),
-			boolToBit(!this.headingTrue), // true track angle
-			boolToBit(this.headingTrue),
+			boolToBit(this.headingTrue || this.headingMagnetic),
+			boolToBit(this.headingTrue || this.trueTrackAngle),
 		];
 
 		const i = nibble.read(this.navigationIntegrityCategory);
@@ -94,15 +96,22 @@ export class BaseTraffic extends Message {
 }
 
 function packLatLon(latLon) {
-	return latLon * (0x800000 / 180.0);
+	// return latLon;
+	const packed = latLon * (0x800000 / 180.0);
+
+	if (latLon < 0) {
+		return ((0x1000000 + packed) & 0xffffff) + 1; // 2s complement
+	}
+
+	return packed;
 }
 
 function packAltitude(altFt) {
-	return (1000 + altFt) / 25;
+	return Math.round((1000 + altFt) / 25);
 }
 
 function packHeading(heading) {
-	return (heading / 360) * 256;
+	return Math.round((heading / 360) * 256);
 }
 
 function boolToBit(bool) {
