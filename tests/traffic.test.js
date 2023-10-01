@@ -28,7 +28,7 @@ describe('traffic message', () => {
 
 		// Then
 		expect(buffer.toString('hex').toUpperCase()).toBe(
-			'7E1400DD5155265D56FF2789065B8802D000FA09472D4E554743202000C8EA7E'
+			'7E1400DD5155265D55A88978065B8802D000FA09472D4E55474320200048017E'
 		);
 	});
 });
