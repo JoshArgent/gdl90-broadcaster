@@ -17,11 +17,14 @@ import { GDL90, Traffic } from '../src';
 
 const server = new GDL90();
 
-// Set the latitude and longitude position
-server.ownershipMessage.latitudeDeg = 51;
-server.ownershipMessage.longitudeDeg = -1.1;
+await server.start(heartbeat => {
+	const owner = new Ownership();
+	owner.callsign = 'G-WXYZ';
+	owner.latitudeDeg = 51;
+	owner.longitudeDeg = -1.1;
 
-await server.connect();
+	return [owner];
+});
 ```
 
 See [example.js](./tests/example.js) for a complete example implementation.
