@@ -2,8 +2,22 @@ import { buffer } from 'bitwise';
 import { Message } from './message';
 
 export class GeoAltitude extends Message {
+	/**
+	 * The GPS altitude (height above WGS-84 ellipsoid). Defaults to 0
+	 * @type {number}
+	 */
 	geoAltitudeFt = 0;
+
+	/**
+	 * The Vertical Figure of Merit. Defaults to 0
+	 * @type {number}
+	 */
 	verticalMetrics = 0;
+
+	/**
+	 * Vertical warning indication. Defaults to false
+	 * @type {boolean}
+	 */
 	verticalWarning = false;
 
 	getMessageId() {
