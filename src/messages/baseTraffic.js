@@ -1,23 +1,113 @@
 import { buffer, byte, nibble, string } from 'bitwise';
 import { Message } from './message';
-import { EMITTER_CATEGORY, EmitterCategory } from '../enums';
+import {
+	EMITTER_CATEGORY,
+	EmitterCategory,
+	AddressType,
+	ADDRESS_TYPE,
+	NavigationIntegrityCategory,
+	NavigationAccuracyCategory,
+	INTEGRITY_CATEGORY,
+	ACCURACY_CATEGORY,
+	PriorityCode,
+	PRIORITY_CODE,
+} from '../enums';
 
 export class BaseTraffic extends Message {
+	/**
+	 * Indicates a traffic alert status is active for this traffic.
+	 * @type {boolean}
+	 */
 	trafficAlert = false;
-	addressType = 0;
+
+	/**
+	 * Indicates a traffic alert status is active for this traffic. Defaults to ADSBWithIcaoAddress.
+	 * @type {AddressType}
+	 */
+	addressType = ADDRESS_TYPE.ADSBWithIcaoAddress;
+
+	/**
+	 * Participant address in 24-bits.
+	 * @type {number}
+	 */
 	participantAddress = 0;
+
+	/**
+	 * Latitude in degrees
+	 * @type {number}
+	 */
 	latitudeDeg = 0;
+
+	/**
+	 * Longitude in degrees
+	 * @type {number}
+	 */
 	longitudeDeg = 0;
+
+	/**
+	 * Altitude in feet
+	 * @type {number}
+	 */
 	altitudeFt = 0;
+
+	/**
+	 * Is the participant airborne? Defaults to true
+	 * @type {boolean}
+	 */
 	airborne = true;
+
+	/**
+	 * Is the report based on extrapolated data? Defaults to false
+	 * @type {boolean}
+	 */
 	reportExtrapolated = false;
+
+	/**
+	 * Is the reported heading a true track? Defaults to true
+	 * @type {boolean}
+	 */
 	headingTrue = true;
+
+	/**
+	 * Is the reported heading a magnetic? Defaults to false
+	 * @type {boolean}
+	 */
 	headingMagnetic = false;
+
+	/**
+	 * True track angle? Defaults to false
+	 * @type {boolean}
+	 */
 	trueTrackAngle = false;
-	navigationIntegrityCategory = 10;
-	navigationAccuracyCategory = 9;
-	horizontalVelocityKts = 100;
+
+	/**
+	 * The Navigational Integrity Category for the signal. Defaults to Less than 25m
+	 * @type {NavigationIntegrityCategory}
+	 */
+	navigationIntegrityCategory = INTEGRITY_CATEGORY.LessThan25m;
+
+	/**
+	 * The Navigational Accuracy Category for the signal. Defaults to Less than 30m
+	 * @type {NavigationAccuracyCategory}
+	 */
+	navigationAccuracyCategory = ACCURACY_CATEGORY.LessThan30m;
+
+	/**
+	 * Horizontal velocity in knots. Defaults to 0
+	 * @type {number}
+	 */
+	horizontalVelocityKts = 0;
+
+	/**
+	 * Vertical speed in feet per minute. Defaults to 0
+	 * @type {number}
+	 */
 	verticalVelocityFpm = 0;
+
+	/**
+	 * Heading in degrees. Defaults to 0
+	 * @type {number}
+	 */
 	trackHeadingDeg = 0;
 
 	/**
@@ -26,8 +116,17 @@ export class BaseTraffic extends Message {
 	 */
 	emitterCategory = EMITTER_CATEGORY.Light;
 
+	/**
+	 * The callsign of the traffic. Maximum of 8 characters.
+	 * @type {string}
+	 */
 	callsign = 'G-XXXX';
-	priorityCode = 0;
+
+	/**
+	 * The priority code for the station. Defaults to no emergency
+	 * @type {PriorityCode}
+	 */
+	priorityCode = PRIORITY_CODE.NoEmergency;
 
 	getMessageContent() {
 		const s = nibble.read(this.trafficAlert ? 1 : 0);
