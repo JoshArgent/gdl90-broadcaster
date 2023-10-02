@@ -3,17 +3,90 @@ import { secondsSinceMidnight } from '../utils/date';
 import { Message } from './message';
 
 export class HearbeatMessage extends Message {
+	/**
+	 * @private
+	 * The timestamp the hearbeat is for. Automatically set by the broadcaster
+	 * @type {Date}
+	 */
 	timestamp = new Date();
+
+	/**
+	 * True indicates there is a valid GPS position available
+	 * @default true
+	 * @type {boolean}
+	 */
 	gpsPosValid = true;
+
+	/**
+	 * True indicates the device requires maintenance
+	 * @default false
+	 * @type {boolean}
+	 */
 	maintReq = false;
+
+	/**
+	 * True indicates the devices IDENT button has been pressed
+	 * @default false
+	 * @type {boolean}
+	 */
 	ident = false;
+
+	/**
+	 * True indicates the device has a temporary self-assigned anonymous address
+	 * @default false
+	 * @type {boolean}
+	 */
 	addrType = false;
+
+	/**
+	 * True indicates the device is low on battery
+	 * @default false
+	 * @type {boolean}
+	 */
 	gpsBattLow = false;
+
+	/**
+	 * True indicates the device is receiving ATC services
+	 * @default false
+	 * @type {boolean}
+	 */
 	ratcs = false;
+
+	/**
+	 * Should be set to true for all hearbeat messages
+	 * @private
+	 * @default true
+	 * @type {boolean}
+	 */
 	uatInitialized = true;
-	csaRequested = true;
+
+	/**
+	 * True indicates the GDL-90 Conflict Situational Awareness algorithm has been requested
+	 * @default false
+	 * @type {boolean}
+	 */
+	csaRequested = false;
+
+	/**
+	 * True indicates the GDL-90 Conflict Situational Awareness algorithm has been requested but is not available
+	 * @default false
+	 * @type {boolean}
+	 */
 	csaNotAvailable = false;
+
+	/**
+	 * @private
+	 * @default true
+	 * @type {boolean}
+	 */
 	utcOk = true;
+
+	/**
+	 * The message count buffer according to the GDL-90 specification.
+	 * Two bytes used to represent the number of UAT messages received in the previous second by the device.
+	 * @default 0
+	 * @type {Int16}
+	 */
 	messageCountsBuffer = 0;
 
 	getMessageId() {
