@@ -1,17 +1,21 @@
 {
-	"name": "aerolink",
+	"name": "gdl90-broadcaster",
 	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
+	"description": "A lightweight implementation of Garmin's GDL-90 protocol in pure javascript.",
+	"main": "src/index.js",
 	"type": "module",
-	"directories": {
-		"doc": "docs"
-	},
+	"keywords": [
+		"GDL-90",
+		"GDL90",
+		"GPS",
+		"protocol",
+		"ADS-B"
+	],
 	"scripts": {
 		"example": "node --experimental-specifier-resolution=node tests/example.js",
 		"test": "jest "
 	},
-	"author": "",
+	"author": "Josh Argent",
 	"license": "ISC",
 	"prettier": {
 		"trailingComma": "es5",
