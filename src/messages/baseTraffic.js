@@ -1,5 +1,6 @@
 import { buffer, byte, nibble, string } from 'bitwise';
 import { Message } from './message';
+import { EMITTER_CATEGORY, EmitterCategory } from '../enums';
 
 export class BaseTraffic extends Message {
 	trafficAlert = false;
@@ -18,7 +19,13 @@ export class BaseTraffic extends Message {
 	horizontalVelocityKts = 100;
 	verticalVelocityFpm = 0;
 	trackHeadingDeg = 0;
-	emitterCategory = 1; // 1 = light plane
+
+	/**
+	 * The traffic emitter category number
+	 * @type {EmitterCategory}
+	 */
+	emitterCategory = EMITTER_CATEGORY.Light;
+
 	callsign = 'G-XXXX';
 	priorityCode = 0;
 
