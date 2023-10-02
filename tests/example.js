@@ -1,29 +1,32 @@
-import { GDL90, Traffic } from '../src';
+import { GDL90, GeoAltitude, Ownership, Traffic } from '../src';
 
 const server = new GDL90({ logging: true });
 
-server.ownershipMessage.callsign = 'TEST';
-server.ownershipMessage.latitudeDeg = 51;
-server.ownershipMessage.longitudeDeg = 1;
-server.ownershipMessage.altitudeFt = 1000;
-server.ownershipMessage.horizontalVelocityKts = 90;
-server.ownershipMessage.trackHeadingDeg = 10;
-server.ownershipMessage.headingMagnetic = true;
-server.ownershipMessage.airborne = true;
+await server.start(heartbeat => {
+	const owner = new Ownership();
+	owner.callsign = 'G-WZYZ';
+	owner.latitudeDeg = 51;
+	owner.longitudeDeg = 1;
+	owner.altitudeFt = 1000;
+	owner.horizontalVelocityKts = 90;
+	owner.trackHeadingDeg = 10;
+	owner.headingMagnetic = true;
+	owner.airborne = true;
 
-server.geometricAltitudeMessage.geoAltitudeFt = 1000;
-server.geometricAltitudeMessage.verticalMetrics = 50;
+	const geoAlt = new GeoAltitude();
+	geoAlt.geoAltitudeFt = 1000;
+	geoAlt.verticalMetrics = 50;
 
-const traffic = new Traffic();
-traffic.participantAddress++;
-traffic.callsign = 'N851TB';
-traffic.latitudeDeg = 51.0001;
-traffic.longitudeDeg = 1.00001;
-traffic.altitudeFt = 1200;
-traffic.horizontalVelocityKts = 110;
-traffic.airborne = true;
-traffic.headingMagnetic = true;
-traffic.trackHeadingDeg = 180;
-server.trafficMessages.push(traffic);
+	const traffic = new Traffic();
+	traffic.participantAddress++;
+	traffic.callsign = 'N851TB';
+	traffic.latitudeDeg = 51.0001;
+	traffic.longitudeDeg = 1.00001;
+	traffic.altitudeFt = 1200;
+	traffic.horizontalVelocityKts = 110;
+	traffic.airborne = true;
+	traffic.headingMagnetic = true;
+	traffic.trackHeadingDeg = 180;
 
-await server.connect();
+	return [owner, geoAlt, traffic];
+});

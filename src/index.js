@@ -1,5 +1,5 @@
 export { GDL90 } from './GDL90';
-export { Traffic } from './messages';
+export { Traffic, Ownership, GeoAltitude } from './messages';
 export {
 	EMITTER_CATEGORY,
 	ADDRESS_TYPE,

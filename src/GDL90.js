@@ -1,6 +1,5 @@
 import dgram from 'dgram';
-import { GeoAltitude, HearbeatMessage, Message, Traffic } from './messages';
-import { Ownership } from './messages/ownership';
+import { HearbeatMessage, Message } from './messages';
 
 const DEFAULT_OPTIONS = {
 	dgram: dgram,
@@ -44,30 +43,6 @@ export class GDL90 {
 	_logging;
 
 	/**
-	 * The hearbeat message as described in GDL-90 specification.
-	 * @type {HearbeatMessage}
-	 */
-	hearbeatMessage = new HearbeatMessage();
-
-	/**
-	 * The ownership message as described in GDL-90 specification.
-	 * @type {Ownership}
-	 */
-	ownershipMessage = new Ownership();
-
-	/**
-	 * The Geometric altitude message as described in GDL-90 specification.
-	 * @type {GeoAltitude}
-	 */
-	geometricAltitudeMessage = new GeoAltitude();
-
-	/**
-	 * Traffic report messages as described in GDL-90 specification.
-	 * @type {Traffic[]}
-	 */
-	trafficMessages = [];
-
-	/**
 	 * @param {object} [options]
 	 * @param {dgram} [options.dgram] Datagram library for sending data over UDP. Defaults to Node's implementation
 	 * @param {string} [options.host] Host address to broadcast on. Defaults to localhost
@@ -84,10 +59,18 @@ export class GDL90 {
 	}
 
 	/**
+	 * Callback called every heartbeat
+	 * @callback GDL90Heartbeat
+	 * @param {HearbeatMessage} heartbeat
+	 * @returns {Message[]} a number of additional messages to be broadcast (e.g. ownership report, traffic)
+	 */
+
+	/**
 	 * Opens the UDP connection and starts to GDL-90 broadcast
+	 * @param {GDL90Heartbeat} callback called each heartbeat
 	 * @returns {Promise} resolves once connection is established
 	 */
-	connect() {
+	start(callback = () => {}) {
 		return new Promise((resolve, reject) => {
 			this._socket = this._dgram.createSocket('udp4');
 
@@ -96,7 +79,7 @@ export class GDL90 {
 			this._socket.bind(() => {
 				this._socket.setBroadcast(true);
 
-				this._startHeartbeat();
+				this._startHeartbeat(callback);
 
 				resolve();
 			});
@@ -135,17 +118,16 @@ export class GDL90 {
 	/**
 	 * @private
 	 */
-	_startHeartbeat() {
+	_startHeartbeat(callback) {
 		this._interval = setInterval(() => {
-			this.hearbeatMessage.timestamp = new Date();
-			this._sendMessage(this.hearbeatMessage);
+			const heartbeat = new HearbeatMessage();
 
-			this._sendMessage(this.ownershipMessage);
+			const otherMessages = callback(heartbeat) || [];
 
-			this._sendMessage(this.geometricAltitudeMessage);
+			this._sendMessage(heartbeat);
 
-			this.trafficMessages.forEach(traffic => {
-				this._sendMessage(traffic);
+			otherMessages.forEach(message => {
+				this._sendMessage(message);
 			});
 		}, 1000);
 	}

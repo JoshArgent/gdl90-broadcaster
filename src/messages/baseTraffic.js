@@ -1,15 +1,10 @@
-import { buffer, byte, nibble, string } from 'bitwise';
+import { buffer, byte, nibble } from 'bitwise';
 import { Message } from './message';
 import {
 	EMITTER_CATEGORY,
-	EmitterCategory,
-	AddressType,
 	ADDRESS_TYPE,
-	NavigationIntegrityCategory,
-	NavigationAccuracyCategory,
 	INTEGRITY_CATEGORY,
 	ACCURACY_CATEGORY,
-	PriorityCode,
 	PRIORITY_CODE,
 } from '../enums';
 
