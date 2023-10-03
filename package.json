@@ -16,7 +16,7 @@
 		"test": "jest "
 	},
 	"author": "Josh Argent",
-	"license": "ISC",
+	"license": "CC-BY-NC-ND-4.0",
 	"prettier": {
 		"trailingComma": "es5",
 		"useTabs": true,
