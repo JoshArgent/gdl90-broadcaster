@@ -1,5 +1,8 @@
 # gdl90-broadcaster
 
+![npm](https://img.shields.io/npm/v/gdl90-broadcaster)
+![npm bundle size](https://img.shields.io/bundlephobia/min/gdl90-broadcaster)
+
 A lightweight implementation of Garmin's GDL-90 protocol in pure javascript.
 
 ## Install
