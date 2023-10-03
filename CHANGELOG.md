@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+
+-   Fixed example in README.md
+
+## 1.0.0
+
 ### Added
 
 -   Basic implementation of the GDL-90 protocol
