@@ -15,6 +15,7 @@
 		"example": "node --experimental-specifier-resolution=node tests/example.js",
 		"test": "jest "
 	},
+	"repository": "JoshArgent/gdl90-broadcaster",
 	"author": "Josh Argent",
 	"license": "CC-BY-NC-ND-4.0",
 	"prettier": {
