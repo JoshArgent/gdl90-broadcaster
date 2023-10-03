@@ -16,7 +16,7 @@ npm install gdl90-broadcaster
 Import the `GDL90` class and open a connection:
 
 ```javascript
-import { GDL90, Traffic } from '../src';
+import { GDL90, Ownership } from '../src';
 
 const server = new GDL90();
 
