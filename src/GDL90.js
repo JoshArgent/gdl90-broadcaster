@@ -1,8 +1,8 @@
-import dgram from 'dgram';
 import { HearbeatMessage, Message } from './messages';
+import { IUDP, NodeUDP } from './network';
 
 const DEFAULT_OPTIONS = {
-	dgram: dgram,
+	udpInterface: new NodeUDP(),
 	host: 'localhost',
 	port: 4000,
 	logging: false,
@@ -11,9 +11,9 @@ const DEFAULT_OPTIONS = {
 export class GDL90 {
 	/**
 	 * @private
-	 * @type {dgram}
+	 * @type {IUDP}
 	 */
-	_dgram;
+	_udpInterface;
 
 	/**
 	 * @private
@@ -44,7 +44,7 @@ export class GDL90 {
 
 	/**
 	 * @param {object} [options]
-	 * @param {dgram} [options.dgram] Datagram library for sending data over UDP. Defaults to Node's implementation
+	 * @param {IUDP} [options.udpInterface] Interace for sending packets over UDP. Defaults to Node's implementation
 	 * @param {string} [options.host] Host address to broadcast on. Defaults to localhost
 	 * @param {number} [options.port] Port to broadcast on. Defaults to 4000
 	 * @param {boolean} [options.logging] Log the broadcast output to the stdout in hex. Defaults to false.
@@ -52,7 +52,7 @@ export class GDL90 {
 	constructor(options = {}) {
 		const optionsWithDefaults = { ...DEFAULT_OPTIONS, ...options };
 
-		this._dgram = optionsWithDefaults.dgram;
+		this._udpInterface = optionsWithDefaults.udpInterface;
 		this._host = optionsWithDefaults.host;
 		this._port = optionsWithDefaults.port;
 		this._logging = optionsWithDefaults.logging;
@@ -72,17 +72,11 @@ export class GDL90 {
 	 */
 	start(callback = () => {}) {
 		return new Promise((resolve, reject) => {
-			this._socket = this._dgram.createSocket('udp4');
-
-			this._socket.on('error', reject);
-
-			this._socket.bind(() => {
-				this._socket.setBroadcast(true);
-
+			this._udpInterface.bind(() => {
 				this._startHeartbeat(callback);
 
 				resolve();
-			});
+			}, reject);
 		});
 	}
 
@@ -92,7 +86,7 @@ export class GDL90 {
 	close() {
 		if (this._interval) clearInterval(this._interval);
 
-		this._socket.close();
+		this._udpInterface.close();
 	}
 
 	/**
@@ -106,7 +100,7 @@ export class GDL90 {
 			console.log(messageBuffer.toString('hex'));
 		}
 
-		this._socket.send(
+		this._udpInterface.send(
 			messageBuffer,
 			0,
 			messageBuffer.length,
