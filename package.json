@@ -31,6 +31,7 @@
 		"jest": "^29.7.0"
 	},
 	"dependencies": {
-		"bitwise": "^2.2.0"
+		"bitwise": "^2.2.0",
+		"codependency": "^2.1.0"
 	}
 }
