@@ -32,6 +32,7 @@
 	},
 	"dependencies": {
 		"bitwise": "^2.2.0",
+		"buffer": "^6.0.3",
 		"codependency": "^2.1.0"
 	}
 }
