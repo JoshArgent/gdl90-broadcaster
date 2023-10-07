@@ -3,7 +3,7 @@ import { IUDP } from './IUDP';
 export class NodeUDP extends IUDP {
 	_socket;
 
-	constructor(dgramImp = dgram) {
+	constructor(dgramImp) {
 		this._dgram = dgramImp;
 	}
 
