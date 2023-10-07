@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+-   Exposed `IUDP` interface for broadcasting through UDP. Defaults to `NodeUDP` implementation.
+
 ### Changed
 
+-   Deprecated `dgram` option on `GDL90`. Use `udpInterface` instead.
 -   Fixed example in README.md
 
 ## 1.0.0
