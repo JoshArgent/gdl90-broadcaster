@@ -1,5 +1,5 @@
 import { HearbeatMessage, Message } from './messages';
-import { IUDP } from './network';
+import { IUDP } from './network/IUDP';
 
 const DEFAULT_OPTIONS = {
 	host: 'localhost',
