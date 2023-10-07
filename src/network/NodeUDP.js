@@ -1,5 +1,4 @@
 import { IUDP } from './IUDP';
-import dgram from 'dgram';
 
 export class NodeUDP extends IUDP {
 	_socket;
@@ -9,11 +8,17 @@ export class NodeUDP extends IUDP {
 	}
 
 	bind(callback, errorCallback) {
-		this._socket = this._dgram.createSocket('udp4');
+		// TODO Support dgramImp option
 
-		this._socket.on('error', errorCallback);
+		import('dgram')
+			.then(dgram => {
+				this._socket = dgram.createSocket('udp4');
 
-		this._socket.bind(callback);
+				this._socket.on('error', errorCallback);
+
+				this._socket.bind(callback);
+			})
+			.catch(errorCallback);
 	}
 
 	send(msg, offset, length, port, address) {
