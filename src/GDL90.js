@@ -1,8 +1,7 @@
 import { HearbeatMessage, Message } from './messages';
-import { IUDP, NodeUDP } from './network';
+import { IUDP } from './network';
 
 const DEFAULT_OPTIONS = {
-	udpInterface: new NodeUDP(),
 	host: 'localhost',
 	port: 4000,
 	logging: false,
@@ -48,11 +47,6 @@ export class GDL90 {
 	constructor(options = {}) {
 		const optionsWithDefaults = { ...DEFAULT_OPTIONS, ...options };
 
-		if (Object.keys(options).includes('dgram')) {
-			// Backwards compatibility for old API that supported passing `dgram` option
-			optionsWithDefaults.udpInterface = new NodeUDP(options.dgram);
-		}
-
 		this._udpInterface = optionsWithDefaults.udpInterface;
 		this._host = optionsWithDefaults.host;
 		this._port = optionsWithDefaults.port;
@@ -71,8 +65,19 @@ export class GDL90 {
 	 * @param {GDL90Heartbeat} callback called each heartbeat
 	 * @returns {Promise} resolves once connection is established
 	 */
-	start(callback = () => {}) {
-		return new Promise((resolve, reject) => {
+	async start(callback = () => {}) {
+		if (!this._udpInterface) {
+			// TODO Fix backwards compatibility
+			// if (Object.keys(this.).includes('dgram')) {
+			// 	// Backwards compatibility for old API that supported passing `dgram` option
+			// 	optionsWithDefaults.udpInterface = new NodeUDP(options.dgram);
+			// }
+			const NodeUDP = await import('./network/index');
+
+			this._udpInterface = new NodeUDP();
+		}
+
+		await new Promise((resolve, reject) => {
 			this._udpInterface.bind(() => {
 				this._startHeartbeat(callback);
 
