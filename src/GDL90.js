@@ -30,11 +30,6 @@ export class GDL90 {
 	/**
 	 * @private
 	 */
-	_socket;
-
-	/**
-	 * @private
-	 */
 	_interval;
 
 	/**
@@ -48,9 +43,15 @@ export class GDL90 {
 	 * @param {string} [options.host] Host address to broadcast on. Defaults to localhost
 	 * @param {number} [options.port] Port to broadcast on. Defaults to 4000
 	 * @param {boolean} [options.logging] Log the broadcast output to the stdout in hex. Defaults to false.
+	 * @param {dgram} [options.dgram] DEPRECATED. Use `udpInterface` instead.
 	 */
 	constructor(options = {}) {
 		const optionsWithDefaults = { ...DEFAULT_OPTIONS, ...options };
+
+		if (Object.keys(options).includes('dgram')) {
+			// Backwards compatibility for old API that supported passing `dgram` option
+			optionsWithDefaults.udpInterface = new NodeUDP(options.dgram);
+		}
 
 		this._udpInterface = optionsWithDefaults.udpInterface;
 		this._host = optionsWithDefaults.host;
