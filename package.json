@@ -1,6 +1,6 @@
 {
 	"name": "gdl90-broadcaster",
-	"version": "1.0.0-rc2",
+	"version": "1.0.0-rc3",
 	"description": "A lightweight implementation of Garmin's GDL-90 protocol in pure javascript.",
 	"main": "src/index.js",
 	"type": "module",
