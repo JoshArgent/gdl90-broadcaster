@@ -46,7 +46,7 @@ export class GDL90 {
 
 	/**
 	 * @param {object} [options]
-	 * @param {dgram} options.dgram Datagram library for sending data over UDP
+	 * @param {dgram} [options.dgram] Datagram library for sending data over UDP. Defaults to Node's implementation
 	 * @param {string} [options.host] Host address to broadcast on. Defaults to localhost
 	 * @param {number} [options.port] Port to broadcast on. Defaults to 4000
 	 * @param {boolean} [options.logging] Log the broadcast output to the stdout in hex. Defaults to false.
@@ -72,8 +72,12 @@ export class GDL90 {
 	 * @param {GDL90Heartbeat} callback called each heartbeat
 	 * @returns {Promise} resolves once connection is established
 	 */
-	start(callback = () => {}) {
-		return new Promise((resolve, reject) => {
+	async start(callback = () => {}) {
+		if (!this._dgram) {
+			this._dgram = await import('dgram');
+		}
+
+		await new Promise((resolve, reject) => {
 			this._socket = this._dgram.createSocket('udp4');
 
 			this._socket.on('error', reject);
