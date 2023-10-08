@@ -7,6 +7,8 @@ export class NodeUDP extends IUDP {
 	_socket;
 
 	constructor(dgramImp) {
+		super(...arguments);
+
 		this._dgram = dgramImp;
 	}
 
