@@ -1,5 +1,9 @@
 import { HearbeatMessage, Message } from './messages';
 
+// Remove dependency on Node's Buffer implementation
+import { Buffer } from 'buffer';
+global.Buffer = Buffer;
+
 const DEFAULT_OPTIONS = {
 	host: 'localhost',
 	port: 4000,
