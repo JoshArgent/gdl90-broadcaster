@@ -45,7 +45,7 @@ export class GDL90 {
 	_logging;
 
 	/**
-	 * @param {object} [options]
+	 * @param {object} options
 	 * @param {dgram} options.dgram Datagram library for sending data over UDP.
 	 * @param {string} [options.host] Host address to broadcast on. Defaults to localhost
 	 * @param {number} [options.port] Port to broadcast on. Defaults to 4000
