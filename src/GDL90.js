@@ -1,5 +1,6 @@
 import { HearbeatMessage, Message } from './messages';
 import { IUDP } from './network/IUDP';
+import { NodeUDP } from './network';
 
 const DEFAULT_OPTIONS = {
 	host: 'localhost',
@@ -47,10 +48,15 @@ export class GDL90 {
 	constructor(options = {}) {
 		const optionsWithDefaults = { ...DEFAULT_OPTIONS, ...options };
 
-		this._udpInterface = optionsWithDefaults.udpInterface;
+		this._udpInterface = optionsWithDefaults.udpInterface ?? new NodeUDP();
 		this._host = optionsWithDefaults.host;
 		this._port = optionsWithDefaults.port;
 		this._logging = optionsWithDefaults.logging;
+
+		// Backwards compatibility for old API that supported passing `dgram` option
+		if (options.dgram) {
+			this._udpInterface = new NodeUDP(options.dgram);
+		}
 	}
 
 	/**
@@ -66,17 +72,6 @@ export class GDL90 {
 	 * @returns {Promise} resolves once connection is established
 	 */
 	async start(callback = () => {}) {
-		if (!this._udpInterface) {
-			// TODO Fix backwards compatibility
-			// if (Object.keys(this.).includes('dgram')) {
-			// 	// Backwards compatibility for old API that supported passing `dgram` option
-			// 	optionsWithDefaults.udpInterface = new NodeUDP(options.dgram);
-			// }
-			const NodeUDP = await import('./network/index');
-
-			this._udpInterface = new NodeUDP();
-		}
-
 		await new Promise((resolve, reject) => {
 			this._udpInterface.bind(() => {
 				this._startHeartbeat(callback);
