@@ -7,7 +7,7 @@ export class ReactNativeUDP extends IUDP {
 	_socket;
 
 	bind(callback, errorCallback) {
-		import('react-native-dgram')
+		import('react-native-udp')
 			.then(dgram => {
 				this._socket = dgram.createSocket('udp4');
 
@@ -18,7 +18,7 @@ export class ReactNativeUDP extends IUDP {
 			.catch(() =>
 				errorCallback(
 					new Error(
-						'Error importing react-native-dgram. Make sure it is installed'
+						'Error importing react-native-udp. Make sure it is installed'
 					)
 				)
 			);
