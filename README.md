@@ -17,8 +17,9 @@ Import the `GDL90` class and open a connection:
 
 ```javascript
 import { GDL90, Ownership } from '../src';
+import dgram from 'dgram';
 
-const server = new GDL90();
+const server = new GDL90({ dgram });
 
 await server.start(heartbeat => {
 	const owner = new Ownership();
@@ -57,3 +58,18 @@ Many traffic reports can be created and broadcast.
 ### Ownership Geometric Altitude
 
 The geometric altitude message is used to broadcast the device's GPS altitude when available.
+
+## Running in Non-Node Environment
+
+gdl90-broadcaster can be used in any environment, it does not depend on any Node APIs.
+
+The example provided use's Node's `dgram` API, however this can be subtituted for any other UDP package that implements the `dgram` API.
+
+For example, the `react-native-udp` library for React Native:
+
+```javascript
+import { GDL90 } from '../src';
+import reactNativeUdp from 'react-native-udp';
+
+const server = new GDL90({ dgram: reactNativeUdp });
+```
