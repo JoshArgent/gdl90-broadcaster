@@ -9,14 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
--   Exposed `IUDP` interface for broadcasting through UDP. Defaults to `NodeUDP` implementation.
--   Added `ReactNativeUDP` implementation that required `react-native-udp`
 -   Dependency for `buffer` package
 
 ### Changed
 
--   Deprecated `dgram` option on `GDL90`. Use `udpInterface` instead.
+-   `dgram` option is now a required parameter of `GDL90` **(breaking change)**
 -   Fixed example in README.md
+
+### Removed
+
+-   Dependency on any Node library APIs (`dgram` and `Buffer`)
 
 ## 1.0.0
 
