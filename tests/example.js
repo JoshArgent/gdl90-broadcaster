@@ -1,6 +1,7 @@
 import { GDL90, GeoAltitude, Ownership, Traffic } from '../src';
+import dgram from 'dgram';
 
-const server = new GDL90({ logging: true });
+const server = new GDL90({ dgram, logging: true });
 
 await server.start(heartbeat => {
 	const owner = new Ownership();
