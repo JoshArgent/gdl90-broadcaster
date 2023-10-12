@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+-   `jsconfig.json` file
+
 ### Fixed
 
 -   Negative vertical and horizontal velocities cause an unhandled exception
