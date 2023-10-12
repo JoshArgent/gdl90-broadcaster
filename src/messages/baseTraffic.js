@@ -156,11 +156,11 @@ export class BaseTraffic extends Message {
 		const a = nibble.read(this.navigationAccuracyCategory);
 
 		const hhhBuffer = Buffer.alloc(4);
-		hhhBuffer.writeUInt32BE(this.horizontalVelocityKts);
+		hhhBuffer.writeInt32BE(this.horizontalVelocityKts);
 		const hhh = buffer.read(hhhBuffer, 20, 12);
 
 		const vvvBuffer = Buffer.alloc(4);
-		vvvBuffer.writeUInt32BE(this.verticalVelocityFpm / 64);
+		vvvBuffer.writeInt32BE(this.verticalVelocityFpm / 64);
 		const vvv = buffer.read(vvvBuffer, 20, 12);
 
 		const tt = byte.read(packHeading(this.trackHeadingDeg));
